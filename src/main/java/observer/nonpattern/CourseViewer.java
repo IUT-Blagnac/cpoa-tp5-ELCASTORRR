@@ -1,10 +1,6 @@
 package observer.nonpattern;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -129,8 +125,33 @@ public class CourseViewer extends JFrame implements ActionListener,
 		}
 	}
 
+//	public void paint(Graphics g) {
+//		super.paint(g);
+//		LayoutConstants.paintBarChartOutline(g, sliders.size());
+//		for (int i = 0; i < sliders.size(); i++) {
+//			JSlider record = sliders.elementAt(i);
+//			g.setColor(LayoutConstants.courseColours[i]);
+//			g.fillRect(
+//					LayoutConstants.xOffset + (i + 1)
+//							* LayoutConstants.barSpacing + i
+//							* LayoutConstants.barWidth, LayoutConstants.yOffset
+//							+ LayoutConstants.graphHeight
+//							- LayoutConstants.barHeight + 2
+//							* (LayoutConstants.maxValue - record.getValue()),
+//					LayoutConstants.barWidth, 2 * record.getValue());
+//			g.setColor(Color.red);
+//			g.drawString(record.getName(),
+//					LayoutConstants.xOffset + (i + 1)
+//							* LayoutConstants.barSpacing + i
+//							* LayoutConstants.barWidth, LayoutConstants.yOffset
+//							+ LayoutConstants.graphHeight + 20);
+//		}
+//	}
+
 	public void paint(Graphics g) {
 		super.paint(g);
+		int radius = 100;
+
 		LayoutConstants.paintBarChartOutline(g, sliders.size());
 		for (int i = 0; i < sliders.size(); i++) {
 			JSlider record = sliders.elementAt(i);
@@ -149,6 +170,23 @@ public class CourseViewer extends JFrame implements ActionListener,
 							* LayoutConstants.barSpacing + i
 							* LayoutConstants.barWidth, LayoutConstants.yOffset
 							+ LayoutConstants.graphHeight + 20);
+		}
+
+		//first compute the total number of students
+		double total = 0.0;
+		for (int i = 0; i < sliders.size(); i++) {
+			total += sliders.elementAt(i).getValue();
+		}
+		//if total == 0 nothing to draw
+		if (total != 0) {
+			double startAngle = 0.0;
+			for (int i = 0; i < sliders.size(); i++) {
+				double ratio = (sliders.elementAt(i).getValue() / total) * 360.0;
+				//draw the arc
+				g.setColor(LayoutConstants.subjectColors[i%LayoutConstants.subjectColors.length]);
+				g.fillArc(LayoutConstants.xOffset, LayoutConstants.yOffset + 300, 2 * radius, 2 * radius, (int) startAngle, (int) ratio);
+				startAngle += ratio;
+			}
 		}
 	}
 
