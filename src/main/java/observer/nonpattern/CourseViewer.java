@@ -117,7 +117,7 @@ public class CourseViewer extends JFrame implements ActionListener,
 			sliders.addElement(slider);
 			this.setSize(LayoutConstants.xOffset + 50 + this.sliders.size()
 					* (LayoutConstants.barWidth + LayoutConstants.barSpacing),
-					(sliders.size() + 1) * 100 + this.button.getHeight());
+					(sliders.size() + 1) * 150 + this.button.getHeight());
 			this.sliderPanel.revalidate();
 			this.coursePanel.revalidate();
 			this.repaint();
